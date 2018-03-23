@@ -1,0 +1,46 @@
+<view class="page-result" wx:if="{{pageStatus !== 1}}">
+    <view class="page-result-content">
+        <view class="center" wx:if="{{pageStatus == 0}}">数据加载中...</view>
+        <view class="center" wx:if="{{pageStatus == -1}}">获取城市数据出错</view>
+    </view>
+</view>
+<block wx:if="{{pageStatus == 1}}">
+<view class="letters">
+    <view class="letter" bindtap="hotCity">热门</view>
+    <view wx:for="{{letters}}" wx:key="index" data-letter="{{item}}" catchtouchend="clickLetter" class="letter">{{item}}</view>
+</view>
+
+<block wx:if="{{isShowLetter}}">
+    <view class="toast-letter">
+        {{showLetter}}
+    </view>
+</block>
+<scroll-view scroll-y="true" style="height:{{winHeight}}px" scroll-into-view="{{scrollTopId}}" scroll-top="{{scrollTop}}">
+    <view class="city-top">
+        <block wx:if="{{historyCities}}">
+            <view class="zan-panel-title">历史访问</view>
+            <view class="city-btns zan-clearfix">
+                <view wx:for-items="{{historyCities}}" wx:key="{{index}}" class="city-btn" data-value="{{item.value}}" data-label="{{item.label}}" bindtap="bindCity">
+                    <label>{{item.label}}</label>
+                </view>
+            </view>
+        </block>
+        <block wx:if="{{hotCities}}">
+            <view class="zan-panel-title">热门城市</view>
+            <view class="city-btns zan-clearfix">
+                <view wx:for-items="{{hotCities}}" wx:key="{{index}}" class="city-btn" data-value="{{item.v}}" data-label="{{item.l}}" bindtap="bindCity">
+                    <label>{{item.l}}</label>
+                </view>
+            </view>
+        </block>
+    </view>
+    <block wx:for="{{cities}}" wx:key="{{item.k}}">
+        <view class="zan-panel-title" id="{{item.k}}">{{item.k}}</view>
+        <view class="zan-panel">
+            <view class="zan-cell" wx:for="{{item.cities}}" wx:for-item="city" wx:key="{{city.v}}" data-value="{{city.v}}" data-label="{{city.l}}" bindtap="bindCity">
+                <view class="zan-cell__bd">{{city.l}}</view>
+            </view>
+        </view>
+    </block>
+</scroll-view>
+</block>
